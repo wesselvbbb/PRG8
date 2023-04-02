@@ -5,17 +5,27 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
-  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
 
-  <script defer src="train.js" type="module"></script>
   <title>ML5 Neural Network Regression</title>
 </head>
 
 <body>
 <div><h2>ML5 Neural Network Regression</h2></div>
+<label for='zipcode'>ZIPCODE: </label><input type='number' id='zipcode'/>
+<label for='buildYear'>Build Year: </label><input type='number' id='buildYear'/>
+<label for='bathrooms'>bathrooms: </label><input type='number' id='bathrooms'/>
+<br />
+<br />
+<button id="predict">Predict value</button>
+<button id="save">Save Model</button>
+<div id="result"></div>
 <canvas id="myChart" width="300" height="200"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+
+<script defer src="train.js" type="module"></script>
 </body>
 
 </html>

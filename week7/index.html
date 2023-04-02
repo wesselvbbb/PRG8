@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Predict house value</title>
+</head>
+
+<body>
+<div><header>Predict house value</header></div>
+<section>
+    <label for='zipcode'>zipcode: </label><input type='number' id='zipcode'/>
+    <label for='buildYear'>Build Year: </label><input type='number' id='buildYear'/>
+    <label for='bathrooms'>bathrooms: </label><input type='number' id='bathrooms'/>
+    <br/>
+    <br/>
+    <button>Predict value</button>
+</section>
+<section>
+    <div id="result"></div>
+</section>
+<div>
+    <form action="train.html">
+        <input type="submit" value="Train"/>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+
+<script defer src="app.js" type="module"></script>
+</body>
+
+</html>

@@ -1,38 +1,56 @@
-import { createChart, updateChart } from "./scatterplot.js"
-//
-// demo data
-//
-// const data = [
-//     { horsepower: 130, mpg: 18 },
-//     { horsepower: 165, mpg: 15 },
-//     { horsepower: 225, mpg: 14 },
-//     { horsepower: 97, mpg: 18 },
-//     { horsepower: 88, mpg: 27 },
-//     { horsepower: 193, mpg: 9 },
-//     { horsepower: 80, mpg: 25 },
-// ]
+import {createChart, updateChart} from "./scatterplot.js"
+const nn = ml5.neuralNetwork({ task: 'regression', debug: true })
+let trainData
+let testData
 
-// const chartdata = data.map(car => ({
-//     x: car.horsepower,
-//     y: car.mpg,
-// }))
-//
-// createChart(chartdata)
+//HTML
+const result = document.getElementById("result");
+const saveBtn = document.getElementById("save");
+const predictBtn = document.getElementById("predict");
+
+predictBtn.addEventListener("click", () => predict())
+saveBtn.addEventListener("click", () => saveModel())
 
 function loadData() {
-    Papa.parse("./data/cars.csv", {
+    Papa.parse("./data/utrecht-houseprices.csv", {
         download: true,
         header: true,
         dynamicTyping: true,
-        complete: results => dataLoaded(results.data)
+        complete: results => checkData(results.data)
     })
-}
+}loadData()
 
-function dataLoaded(data) {
-    const chartdata = data.map(car => ({
-        x: car.horsepower,
-        y: car.mpg,
+function checkData(data) {
+    data.sort(() => (Math.random() - 0.5))
+    trainData = data.slice(0, Math.floor(data.length * 0.8))
+    testData = data.slice(Math.floor(data.length * 0.8) + 1)
+    console.table(data)
+
+    for (let house of data) {
+        nn.addData({ zipcode: house.zipcode, buildyear: house.buildyear, lotArea: house.lotArea }, { retailValue: house.retailValue })
+    }
+
+    const chartData = data.map(house => ({
+        x: house.zipcode,
+        y: house.retailValue,
     }))
-    createChart(chartdata)
+
+
+    createChart(chartData, "Zipcode", "Retail Value")
+
+    nn.normalizeData()
+    nn.train({ epochs: 52 }, () => console.log("Finished training"))
 }
 
+async function predict() {
+    let zipcodeInput = document.getElementById('zipcode').value;
+    let buildYearInput = document.getElementById('buildYear').value;
+    let bathroomsInput = document.getElementById('bathrooms').value;
+
+    const results = await nn.predict({ zipcode:parseInt(zipcodeInput), buildYear:parseInt(buildYearInput), bathrooms:parseInt(bathroomsInput) })
+    result.innerText = `Predicted value: ${results[0].retailValue} euro`
+}
+
+function saveModel() {
+    nn.save()
+}
